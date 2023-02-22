@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>CRM API</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/api.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">API CRM</a>
+      <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">Sign out</a>
+        </li>
+      </ul>-->
+    </nav>
+
+    <div class="container-fluid" id="main_api">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item" onclick="cambiarSeccion('home')">
+                <a id="menu_home" class="nav-link active menu_secciones" href="#">
+                  <span data-feather="home"></span>
+                    Home
+                </a>
+              </li>
+              <li class="nav-item" onclick="cambiarSeccion('modulos')">
+                <a id="menu_modulos" class="nav-link menu_secciones" href="#">
+                  <span data-feather="file"></span>
+                  Módulos
+                </a>
+              </li>
+              <li class="nav-item" onclick="cambiarSeccion('campos')">
+                <a id="menu_campos" class="nav-link menu_secciones" href="#">
+                  <span data-feather="file"></span>
+                    Campos
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div id="seccion_home" class="col-sm-12 secciones">
+                <h3 class="titulo">Documentación</h3>
+                <p>
+                    Está página está destinada para poner en conocimiento a los usuarios sobre el uso y configuración
+                    del API creada para el consumo de datos del sistema CRM. Mediante esta API podremos acceder
+                    a cualquier módulo que solicitemos información del CRM.
+                </p>
+                <p>Para el consumo de datos mediante el API se utilizará el formato JSON con la siguiente estructura:</p>
+                <pre>
+                    {
+                        "module": "Clientes",
+                        "fields": "id, name, nombre_completo_c, date_entered",
+                        "limit": 10,
+                        "relationship": {
+                            "module": "Ventas",
+                            "fields": "id, name, date_entered"
+                        }
+                    }
+                </pre>
+                <p>
+                    <b>Module:</b> Nombre del módulo a consultar (En el menú lateral en la opción "Módulos" podremos consultar los 
+                    módulos habilitados para el consumo de datos).
+                </p>
+                <p>
+                    <b>Fields:</b> Campos a consultar (En el menú lateral en la opción "Campos" podremos consultar los 
+                    campos habilitados según el módulo requerido para el consumo de datos).
+                </p>
+                <p>
+                    <b>Limit:</b> Límite de registros a consultar
+                </p>
+                <p>
+                    <b>Relationship:</b> Consultar un módulo relacionado con el módulo principal a consultar opción "Module".
+                </p>
+                <p>
+                    <b>Relationship -> Module:</b> Nombre del módulo relacionado a consultar.
+                </p>
+                <p>
+                    <b>Relationship -> Fields:</b> Campos del módulo relacionado a consultar.
+                </p>
+                <p class="titulo">
+                    <b>Todas las opciones son requeridas.</b>
+                </p>
+            </div>
+
+            <div id="seccion_modulos" style="display: none;" class="col-sm-12 secciones">
+                <h3 class="titulo">Lista de Módulos</h3>
+                <div class="table-responsive w-100">
+                    <table id="lista_modulos" class="table table-striped display" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Nombre Módulo</th>
+                                <th>Módulo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="seccion_campos" style="display: none;" class="col-sm-12 secciones">
+                <h3 class="titulo">Lista de Campos</h3>
+                <div class="input-group mb-3">
+                    <input id="modulo" type="text" class="form-control" placeholder="Escriba el módulo a consultar" aria-label="Escriba el módulo a consultar" aria-describedby="button-module">
+                    <button class="btn btn-primary" type="button" id="button-module" onclick="consultarModulo()">Consultar</button>
+                </div>
+                <div class="table-responsive w-100">
+                    <table id="lista_campos_modulo" class="table table-striped display" style="width: 100%; display: none;">
+                        <thead>
+                            <tr>
+                                <th>N.</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>   
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <!--<script src="js/popper.min.js"></script>-->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+    <!--<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>-->
+    <script src="js/api.js"></script>
+  </body>
+</html>
