@@ -11,7 +11,7 @@ $(document).ready(function() {
             console.log("Cargando");
         },
         success: function(text) {
-            //console.log(text);
+            
             var text = JSON.parse(text);
 
             Object.entries(text).forEach(element => {
