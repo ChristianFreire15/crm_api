@@ -66,6 +66,8 @@ function consultarModulo() {
                 
                 if(search_module == true){
 
+                    $("#lista_campos_modulo tbody").empty();
+
                     Object.entries(data).forEach(element => {
 
                         var item = parseInt(element[0]) + 1;
